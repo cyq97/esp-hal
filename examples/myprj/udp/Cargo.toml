@@ -1,0 +1,110 @@
+[package]
+name    = "udp-communication"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[[bin]]
+name = "udp-communication"
+path = "src/main.rs"
+
+[lib]
+name = "udp_communication"
+path = "src/lib.rs"
+
+[dependencies]
+blocking-network-stack = { git = "https://github.com/bjoernQ/blocking-network-stack.git", rev = "b3ecefc", optional = true }
+embedded-io = { version = "0.6.1", default-features = false, optional = true }
+esp-alloc = { path = "../../../esp-alloc", optional = true }
+esp-backtrace = { path = "../../../esp-backtrace", features = [
+    "panic-handler",
+    "println",
+], optional = true }
+esp-bootloader-esp-idf = { path = "../../../esp-bootloader-esp-idf", optional = true }
+esp-hal = { path = "../../../esp-hal", features = ["log-04", "unstable"], optional = true }
+esp-println = { path = "../../../esp-println", features = ["log-04"], optional = true }
+esp-rtos = { path = "../../../esp-rtos", features = ["esp-radio", "log-04"], optional = true }
+esp-radio = { path = "../../../esp-radio", features = [
+    "log-04",
+    "smoltcp",
+    "unstable",
+    "wifi",
+], optional = true }
+smoltcp = { version = "0.12.0", default-features = false, features = [
+    "medium-ethernet",
+    "socket-udp",
+], optional = true }
+heapless = { version = "0.8", optional = true }
+
+[features]
+default = ["embedded"]
+embedded = [
+    "dep:blocking-network-stack",
+    "dep:embedded-io",
+    "dep:esp-alloc",
+    "dep:esp-backtrace",
+    "dep:esp-bootloader-esp-idf",
+    "dep:esp-hal",
+    "dep:esp-println",
+    "dep:esp-rtos",
+    "dep:esp-radio",
+    "dep:smoltcp",
+    "dep:heapless",
+]
+esp32 = [
+    "embedded",
+    "esp-backtrace?/esp32",
+    "esp-bootloader-esp-idf?/esp32",
+    "esp-hal?/esp32",
+    "esp-rtos?/esp32",
+    "esp-radio?/esp32",
+]
+esp32c2 = [
+    "embedded",
+    "esp-backtrace?/esp32c2",
+    "esp-bootloader-esp-idf?/esp32c2",
+    "esp-hal?/esp32c2",
+    "esp-rtos?/esp32c2",
+    "esp-radio?/esp32c2",
+]
+esp32c3 = [
+    "embedded",
+    "esp-backtrace?/esp32c3",
+    "esp-bootloader-esp-idf?/esp32c3",
+    "esp-hal?/esp32c3",
+    "esp-rtos?/esp32c3",
+    "esp-radio?/esp32c3",
+]
+esp32c6 = [
+    "embedded",
+    "esp-backtrace?/esp32c6",
+    "esp-bootloader-esp-idf?/esp32c6",
+    "esp-hal?/esp32c6",
+    "esp-rtos?/esp32c6",
+    "esp-radio?/esp32c6",
+]
+esp32s2 = [
+    "embedded",
+    "esp-backtrace?/esp32s2",
+    "esp-bootloader-esp-idf?/esp32s2",
+    "esp-hal?/esp32s2",
+    "esp-rtos?/esp32s2",
+    "esp-radio?/esp32s2",
+]
+esp32s3 = [
+    "embedded",
+    "esp-backtrace?/esp32s3",
+    "esp-bootloader-esp-idf?/esp32s3",
+    "esp-hal?/esp32s3",
+    "esp-rtos?/esp32s3",
+    "esp-radio?/esp32s3",
+]
+
+[dev-dependencies]
+proptest = "1.4"
+
+[profile.release]
+debug            = true
+debug-assertions = true
+lto              = "fat"
+codegen-units    = 1

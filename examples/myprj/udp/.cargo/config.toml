@@ -1,0 +1,35 @@
+[target.'cfg(target_arch = "riscv32")']
+runner    = "espflash flash --monitor"
+rustflags = [
+  "-C", "link-arg=-Tlinkall.x",
+  "-C", "force-frame-pointers",
+  "--cfg", "portable_atomic_unsafe_assume_single_core",
+]
+
+[target.'cfg(target_arch = "xtensa")']
+runner    = "espflash flash --monitor"
+rustflags = [
+  # GNU LD
+  "-C", "link-arg=-Wl,-Tlinkall.x",
+  "-C", "link-arg=-nostartfiles",
+
+  # LLD
+  # "-C", "link-arg=-Tlinkall.x",
+  # "-C", "linker=rust-lld",
+]
+
+[env]
+ESP_LOG = "info"
+# Required environment variables for UDP communication
+SSID = "YourWiFiSSID"
+PASSWORD = "YourWiFiPassword"
+STATIC_IP = "192.168.1.100"
+GATEWAY_IP = "192.168.1.1"
+
+# Optional environment variables
+UDP_PORT = "8080"
+# TARGET_IP = "192.168.1.50"
+# TARGET_PORT = "9000"
+
+[unstable]
+build-std = ["alloc", "core"]
